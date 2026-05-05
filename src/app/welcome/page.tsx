@@ -3,6 +3,8 @@ import Link from "next/link";
 import { getSession } from "@/lib/auth";
 import LogoutButton from "../ui/LogoutButton";
 
+export const dynamic = "force-dynamic";
+
 export default async function WelcomePage() {
   const session = getSession(cookies());
   if (!session) {

@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
 import { deleteUser, listRegisteredUsers } from "@/lib/users";
 
+export const dynamic = "force-dynamic";
+
 export default async function DashboardPage(props: { searchParams?: { q?: string } }) {
   const session = getSession(cookies());
   if (!session) redirect("/");

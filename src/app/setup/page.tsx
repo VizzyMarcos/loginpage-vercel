@@ -2,6 +2,8 @@ import { redirect } from "next/navigation";
 import { hasAdmin } from "@/lib/users";
 import SetupForm from "../ui/SetupForm";
 
+export const dynamic = "force-dynamic";
+
 export default async function SetupPage() {
   const exists = await hasAdmin();
   if (exists) redirect("/");
@@ -24,4 +26,3 @@ export default async function SetupPage() {
     </main>
   );
 }
-
