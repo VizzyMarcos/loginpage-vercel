@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { hasAdmin } from "@/lib/users";
+import { hasAdmin } from "../../utils/users";
 import SetupForm from "../ui/SetupForm";
 
 export const dynamic = "force-dynamic";

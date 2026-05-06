@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { getSession } from "@/lib/auth";
-import { deleteUser, listRegisteredUsers } from "@/lib/users";
+import { getSession } from "../../utils/auth";
+import { deleteUser, listRegisteredUsers } from "../../utils/users";
 
 export const dynamic = "force-dynamic";
 

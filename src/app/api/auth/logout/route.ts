@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { clearSessionCookie } from "@/lib/auth";
+import { clearSessionCookie } from "../../../../utils/auth";
 
 export async function POST() {
   const jar = cookies();

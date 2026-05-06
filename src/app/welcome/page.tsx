@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import Link from "next/link";
-import { getSession } from "@/lib/auth";
+import { getSession } from "../../utils/auth";
 import LogoutButton from "../ui/LogoutButton";
 
 export const dynamic = "force-dynamic";

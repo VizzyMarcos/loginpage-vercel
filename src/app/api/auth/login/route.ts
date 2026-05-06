@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
-import { getUserByEmail } from "@/lib/users";
-import { setSessionCookie, signSession } from "@/lib/auth";
+import { getUserByEmail } from "../../../../utils/users";
+import { setSessionCookie, signSession } from "../../../../utils/auth";
 
 export async function POST(req: Request) {
   try {
