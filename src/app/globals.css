@@ -15,18 +15,15 @@
   --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 *{box-sizing:border-box}
-html,body{height:100%}
+html,body{height:100%;margin:0;padding:0}
 body{
   margin:0;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
   color:var(--text);
-  background:
-    radial-gradient(900px 600px at 20% 0%, rgba(91,33,182,.10), transparent 55%),
-    radial-gradient(900px 600px at 80% 20%, rgba(91,33,182,.08), transparent 55%),
-    linear-gradient(180deg, #ffffff, var(--bg));
+  background:transparent;
 }
-.shell{min-height:100%;display:grid;place-items:center;padding:28px 16px}
-.card{width:min(440px,100%);background:var(--card);border:1px solid var(--stroke);box-shadow:var(--shadow);border-radius:var(--radius);padding:22px}
+.shell{min-height:100%;display:block;padding:0}
+.card{width:min(440px,100%);background:transparent;border:none;box-shadow:none;border-radius:var(--radius);padding:0}
 .card--wide{width:min(980px,100%);padding:18px}
 .card__header{padding:6px 2px 16px}
 .brand{display:flex;align-items:center;gap:14px}
@@ -63,4 +60,3 @@ tr:hover td{background:rgba(91,33,182,.04)}
 .right{text-align:right}
 .mono{font-family:var(--mono)}
 @media (max-width:520px){.row--space{flex-direction:column;align-items:flex-start}.password{flex-direction:column}.password__toggle{height:44px}}
-
