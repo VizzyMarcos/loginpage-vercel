@@ -20,11 +20,12 @@ body{
   margin:0;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
   color:var(--text);
-  background:transparent;
+  background: linear-gradient(135deg, #3a007a 0%, #6a0dad 40%, #9b30e8 70%, #c084fc 100%);
+  min-height:100vh;
 }
 .shell{min-height:100%;display:block;padding:0}
 .card{width:min(440px,100%);background:transparent;border:none;box-shadow:none;border-radius:var(--radius);padding:0}
-.card--wide{width:min(980px,100%);padding:18px}
+.card--wide{width:min(980px,100%);padding:18px;background:#fff;border-radius:var(--radius);border:1px solid var(--stroke);box-shadow:var(--shadow)}
 .card__header{padding:6px 2px 16px}
 .brand{display:flex;align-items:center;gap:14px}
 .brand__mark{width:54px;height:54px;border-radius:999px;display:grid;place-items:center;background:rgba(91,33,182,.10);border:4px solid rgba(91,33,182,.20);color:var(--primary);font-weight:800;letter-spacing:.02em}
