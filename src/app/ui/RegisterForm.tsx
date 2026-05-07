@@ -6,7 +6,6 @@ export default function RegisterForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [show, setShow] = useState(false);
   const [notice, setNotice] = useState<{ kind: "ok" | "error"; msg: string } | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -66,7 +65,7 @@ export default function RegisterForm() {
           type="email"
           inputMode="email"
           autoComplete="email"
-          placeholder="you@company.com"
+          placeholder="user@btconnect.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -77,23 +76,18 @@ export default function RegisterForm() {
         <label className="field__label" htmlFor="password">
           Password
         </label>
-        <div className="password">
-          <input
-            className="field__input password__input"
-            id="password"
-            name="password"
-            type={show ? "text" : "password"}
-            autoComplete="new-password"
-            placeholder="••••••••"
-            minLength={6}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <button className="password__toggle" type="button" onClick={() => setShow((s) => !s)} aria-label="Show password">
-            {show ? "Hide" : "Show"}
-          </button>
-        </div>
+        <input
+          className="field__input"
+          id="password"
+          name="password"
+          type="password"
+          autoComplete="new-password"
+          placeholder="••••••••"
+          minLength={6}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
       </div>
 
       <button className="btn btn--primary" type="submit" disabled={loading}>
@@ -118,4 +112,3 @@ export default function RegisterForm() {
     </form>
   );
 }
-

@@ -11,7 +11,6 @@ export default function RegisterPage() {
             </div>
             <div>
               <h1 className="brand__title">Create account</h1>
-              <p className="brand__subtitle">Register with your email and password</p>
             </div>
           </div>
         </header>
@@ -20,4 +19,3 @@ export default function RegisterPage() {
     </main>
   );
 }
-
