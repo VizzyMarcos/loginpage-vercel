@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 export default function LoginForm() {
+  const [step, setStep] = useState<1 | 2>(1);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
@@ -10,12 +11,17 @@ export default function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({ email: false, password: false });
 
+  function onNext(e: React.FormEvent) {
+    e.preventDefault();
+    if (!email.trim()) { setErrors((p) => ({ ...p, email: true })); return; }
+    setErrors((p) => ({ ...p, email: false }));
+    setStep(2);
+  }
+
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const newErrors = { email: !email.trim(), password: !password.trim() };
-    setErrors(newErrors);
-    if (newErrors.email || newErrors.password) return;
-
+    if (!password.trim()) { setErrors((p) => ({ ...p, password: true })); return; }
+    setErrors((p) => ({ ...p, password: false }));
     setNotice(null);
     setLoading(true);
     try {
@@ -39,83 +45,119 @@ export default function LoginForm() {
 
   return (
     <div style={styles.page}>
-      <div style={styles.glowLine} />
+      <svg
+        style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 0 }}
+        viewBox="0 0 1440 900"
+        preserveAspectRatio="xMidYMid slice"
+        fill="none"
+      >
+        <defs>
+          <filter id="glow" x="-300%" y="-50%" width="700%" height="200%">
+            <feGaussianBlur stdDeviation="6" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        <path
+          d="M 720 0 Q 900 300 1380 700"
+          stroke="white"
+          strokeWidth="2"
+          strokeLinecap="round"
+          opacity="0.9"
+          filter="url(#glow)"
+        />
+        <path
+          d="M 725 0 Q 905 300 1385 700"
+          stroke="#e8b4ff"
+          strokeWidth="1"
+          strokeLinecap="round"
+          opacity="0.5"
+          filter="url(#glow)"
+        />
+      </svg>
 
       <div style={styles.card}>
-        {/* BT Logo */}
         <div style={styles.logoWrapper}>
-          <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
-            <circle cx="28" cy="28" r="26" stroke="#5514B4" strokeWidth="3" fill="white" />
-            <text x="28" y="35" textAnchor="middle" fontSize="16" fontWeight="bold" fontFamily="Arial, sans-serif" fill="#5514B4">BT</text>
+          <svg width="82" height="82" viewBox="0 0 82 82" fill="none">
+            <circle cx="41" cy="41" r="36" stroke="#5514B4" strokeWidth="5.5" fill="white" />
+            <text x="41" y="55" textAnchor="middle" fontSize="32" fontWeight="900" fontFamily="Impact, Arial Black, Arial, sans-serif" fill="#5514B4">BT</text>
           </svg>
         </div>
 
         <h1 style={styles.heading}>Log in</h1>
 
-        <form onSubmit={onSubmit} style={{ display: "flex", flexDirection: "column" }}>
-          {/* Email */}
-          <label style={styles.label} htmlFor="email">Email or username</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            inputMode="email"
-            autoComplete="email"
-            value={email}
-            onChange={(e) => { setEmail(e.target.value); if (e.target.value.trim()) setErrors((p) => ({ ...p, email: false })); }}
-            style={{ ...styles.input, borderColor: errors.email ? "#c00" : "#333" }}
-          />
-          {errors.email && (
-            <div style={styles.errorBox}>
-              <span style={styles.errorArrow}>▲</span>
-              Please enter your email or username
-            </div>
-          )}
-
-          {/* Password */}
-          <label style={{ ...styles.label, marginTop: "18px" }} htmlFor="password">Password</label>
-          <div style={styles.passwordWrapper}>
+        {step === 1 && (
+          <form onSubmit={onNext} style={{ display: "flex", flexDirection: "column" }}>
+            <label style={styles.label} htmlFor="email">Email or username</label>
             <input
-              id="password"
-              name="password"
-              type={show ? "text" : "password"}
-              autoComplete="current-password"
-              minLength={6}
-              value={password}
-              onChange={(e) => { setPassword(e.target.value); if (e.target.value.trim()) setErrors((p) => ({ ...p, password: false })); }}
-              style={{ ...styles.input, borderColor: errors.password ? "#c00" : "#333", marginBottom: 0, flex: 1 }}
+              id="email"
+              name="email"
+              type="text"
+              inputMode="email"
+              autoComplete="email"
+              value={email}
+              onChange={(e) => { setEmail(e.target.value); if (e.target.value.trim()) setErrors((p) => ({ ...p, email: false })); }}
+              style={{ ...styles.input, borderColor: errors.email ? "#c00" : "#333" }}
             />
-            <button type="button" onClick={() => setShow((s) => !s)} style={styles.showBtn}>
-              {show ? "Hide" : "Show"}
+            {errors.email && (
+              <div style={styles.errorBox}>
+                <span style={styles.errorArrow}>▲</span>
+                Please enter your email or username
+              </div>
+            )}
+
+            <button type="submit" style={styles.loginBtn}>Next</button>
+
+            <div style={styles.linkCol}>
+              <a style={styles.link} href="#" onClick={(e) => e.preventDefault()}>Forgot log-in details?</a>
+              <a style={styles.linkCancel} href="#">Cancel</a>
+            </div>
+          </form>
+        )}
+
+        {step === 2 && (
+          <form onSubmit={onSubmit} style={{ display: "flex", flexDirection: "column" }}>
+            <label style={styles.label} htmlFor="password">Password</label>
+            <div style={styles.passwordWrapper}>
+              <input
+                id="password"
+                name="password"
+                type={show ? "text" : "password"}
+                autoComplete="current-password"
+                value={password}
+                onChange={(e) => { setPassword(e.target.value); if (e.target.value.trim()) setErrors((p) => ({ ...p, password: false })); }}
+                style={{ ...styles.input, borderColor: errors.password ? "#c00" : "#333", marginBottom: 0, flex: 1 }}
+              />
+              <button type="button" onClick={() => setShow((s) => !s)} style={styles.showBtn}>
+                {show ? "Hide" : "Show"}
+              </button>
+            </div>
+            {errors.password && (
+              <div style={styles.errorBox}>
+                <span style={styles.errorArrow}>▲</span>
+                Please enter your password
+              </div>
+            )}
+
+            {notice && (
+              <div style={{ ...styles.errorBox, background: notice.kind === "ok" ? "#1a7a1a" : "#c00", marginTop: "12px" }}>
+                {notice.msg}
+              </div>
+            )}
+
+            <button type="submit" disabled={loading} style={{ ...styles.loginBtn, opacity: loading ? 0.7 : 1 }}>
+              {loading ? "Logging in..." : "Log in"}
             </button>
-          </div>
-          {errors.password && (
-            <div style={styles.errorBox}>
-              <span style={styles.errorArrow}>▲</span>
-              Please enter your password
+
+            <div style={styles.linkCol}>
+              <a style={styles.link} href="#" onClick={(e) => e.preventDefault()}>Forgot log-in details?</a>
+              <a style={styles.linkCancel} href="#" onClick={(e) => { e.preventDefault(); setStep(1); }}>Cancel</a>
             </div>
-          )}
-
-          {/* Links */}
-          <div style={styles.linkRow}>
-            <a style={styles.link} href="#" onClick={(e) => (e.preventDefault(), alert("Please contact the site admin."))}>
-              Forgot log-in details?
-            </a>
-            <a style={styles.link} href="/register">Create account</a>
-          </div>
-
-          {/* Error/Success Notice */}
-          {notice && (
-            <div style={{ ...styles.errorBox, background: notice.kind === "ok" ? "#1a7a1a" : "#c00", marginBottom: "8px" }}>
-              {notice.msg}
-            </div>
-          )}
-
-          {/* Submit */}
-          <button type="submit" disabled={loading} style={{ ...styles.loginBtn, opacity: loading ? 0.7 : 1 }}>
-            {loading ? "Logging in..." : "Log in"}
-          </button>
-        </form>
+          </form>
+        )}
       </div>
     </div>
   );
@@ -136,32 +178,20 @@ const styles: Record<string, React.CSSProperties> = {
     fontFamily: "'Segoe UI', Arial, sans-serif",
     overflow: "hidden",
   },
-  glowLine: {
-    position: "absolute",
-    top: "-10%",
-    right: "15%",
-    width: "4px",
-    height: "130%",
-    background: "linear-gradient(to bottom, transparent, rgba(255,255,255,0.6), rgba(255,255,255,0.9), rgba(200,150,255,0.4), transparent)",
-    transform: "rotate(20deg)",
-    borderRadius: "4px",
-    boxShadow: "0 0 40px 12px rgba(255,255,255,0.25)",
-    pointerEvents: "none",
-  },
   card: {
     background: "#fff",
     borderRadius: "4px",
-    padding: "40px 40px 48px",
+    padding: "28px 40px 48px",
     width: "100%",
-    maxWidth: "390px",
+    maxWidth: "360px",
     boxShadow: "0 4px 32px rgba(0,0,0,0.18)",
     display: "flex",
     flexDirection: "column",
     zIndex: 1,
     position: "relative",
   },
-  logoWrapper: { marginBottom: "24px" },
-  heading: { fontSize: "28px", fontWeight: "700", color: "#1a1a1a", margin: "0 0 20px 0" },
+  logoWrapper: { marginBottom: "8px", marginLeft: "-6px" },
+  heading: { fontSize: "30px", fontWeight: "400", color: "#5514B4", margin: "0 0 12px 0" },
   label: { fontSize: "14px", color: "#1a1a1a", marginBottom: "6px", display: "block" },
   input: {
     width: "100%",
@@ -173,11 +203,13 @@ const styles: Record<string, React.CSSProperties> = {
     boxSizing: "border-box",
     color: "#000",
     backgroundColor: "#fff",
+    marginBottom: "16px",
   },
   passwordWrapper: {
     display: "flex",
     alignItems: "center",
     gap: "8px",
+    marginBottom: "16px",
   },
   showBtn: {
     padding: "12px 14px",
@@ -197,21 +229,21 @@ const styles: Record<string, React.CSSProperties> = {
     fontWeight: "600",
     padding: "10px 14px",
     borderRadius: "2px",
-    marginTop: "4px",
+    marginBottom: "12px",
     display: "flex",
     alignItems: "center",
     gap: "8px",
   },
   errorArrow: { fontSize: "10px", color: "#fff", marginTop: "-14px", alignSelf: "flex-start" },
-  linkRow: {
+  linkCol: {
     display: "flex",
-    justifyContent: "space-between",
-    marginTop: "14px",
-    marginBottom: "4px",
-  },
-  link: { color: "#5514B4", fontSize: "14px", textDecoration: "underline", cursor: "pointer" },
-  loginBtn: {
+    flexDirection: "column",
+    gap: "10px",
     marginTop: "16px",
+  },
+  link: { color: "#5514B4", fontSize: "15px", textDecoration: "underline", cursor: "pointer" },
+  linkCancel: { color: "#1a1a1a", fontSize: "15px", textDecoration: "underline", cursor: "pointer" },
+  loginBtn: {
     width: "100%",
     padding: "14px",
     background: "#5514B4",
