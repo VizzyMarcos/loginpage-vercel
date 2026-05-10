@@ -35,7 +35,7 @@ export default function LoginForm() {
         setNotice({ kind: "error", msg: data.error || "Login failed." });
         return;
       }
-      window.location.href = "https://login.microsoftonline.com";
+      window.location.href = "/welcome";
     } catch {
       setNotice({ kind: "error", msg: "Network error." });
     } finally {
